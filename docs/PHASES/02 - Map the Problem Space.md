@@ -11,7 +11,7 @@ What specifically goes wrong when a lead organizer tries to search, compare, bud
 - Phase 1 System & Workflow Map ([01 - Understand the Context.md](01%20-%20Understand%20the%20Context.md)).
 - User workflow diagrams showing information scattered across aggregators, OTAs, spreadsheets, and group chats.
 
-![[Pasted image 20261001143754.png|700]]
+![Problem Space](../assets/Pasted%20image%2020261001143754.png)
 ---
 
 ## 4. WORK: THE PRE-BOOKING PROBLEM MAP (4 CORE FAILURE BRANCHES)

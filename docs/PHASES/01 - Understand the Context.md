@@ -16,7 +16,7 @@ How does the lead organizer actually plan, coordinate, book, and reconcile trip 
 - Document the step-by-step chronological baseline workflow.
 - Map the information flow across tools and handoffs.
 
-![[Pasted image 20261001143838.png|700]]
+![Context](../assets/Pasted%20image%2020261001143838.png)
 ---
 
 ### Actor & Incentive Map

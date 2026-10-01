@@ -45,7 +45,7 @@ The user journey is divided into 4 chronological backbone activities.
 *Note: Built for desktop/tablet priority to facilitate side-by-side drag-and-drop. Mobile degrades to stacked layout.*
 
 ### The Main Dashboard UI (App View)
-![[Pasted image 20261001143952.png]]
+![Experience Design](../assets/Pasted%20image%2020261001143952.png)
 
 ---
 
