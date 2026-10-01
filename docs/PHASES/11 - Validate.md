@@ -1,0 +1,48 @@
+# Validation
+
+## 1. PURPOSE
+
+
+## 2. CORE QUESTION
+
+
+## 3. INPUT
+
+
+## 4. WORK
+
+
+## 5. THINKING TASK
+
+
+## 6. RESEARCH / ANALYSIS METHODS
+
+
+## 7. OUTPUTS
+
+
+## 8. DECISION
+
+
+## 9. EXIT CRITERIA
+
+
+## 10. FAILURE CONDITIONS
+
+
+## 11. BACKTRACK CONDITIONS
+
+
+## 12. AI ROLE
+
+
+## 13. HUMAN ROLE
+
+
+## 14. COMMON FAILURE MODES
+
+
+## 15. NEXT PHASE
+
+
+## 16. DO THIS NOW

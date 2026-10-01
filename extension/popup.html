@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TripCanvas Clipper</title>
+  <link rel="stylesheet" href="popup.css" />
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="logo-row">
+      <span class="logo-icon">✈️</span>
+      <div>
+        <h1 class="logo-title">TripCanvas Clipper</h1>
+        <p class="trip-anchor" id="active-trip-label">Loading active trip...</p>
+      </div>
+    </div>
+    <a href="http://localhost:5173" target="_blank" class="dashboard-link" title="Open Web Dashboard">
+      Open Dashboard ↗
+    </a>
+  </header>
+
+  <!-- Auto-detection status alert -->
+  <div class="status-banner" id="status-banner">
+    <span class="status-icon">🔍</span>
+    <span class="status-text" id="status-text">Scanning page...</span>
+  </div>
+
+  <!-- Clipper Form -->
+  <form id="clipper-form" class="form">
+    <div class="field-group">
+      <label for="title">Title / Listing Name</label>
+      <input type="text" id="title" placeholder="e.g. Indigo 6E-204 or Kyoto Machiya" required />
+    </div>
+
+    <div class="row-2">
+      <div class="field-group">
+        <label for="category">Category</label>
+        <select id="category">
+          <option value="FLIGHT">✈️ Flight</option>
+          <option value="HOTEL">🏨 Hotel</option>
+          <option value="AIRBNB">🏠 Airbnb</option>
+          <option value="TRAIN">🚆 Train</option>
+          <option value="EXCURSION">🎟️ Activity</option>
+        </select>
+      </div>
+
+      <div class="field-group">
+        <label for="bundle">Assign To Bundle</label>
+        <select id="bundle">
+          <option value="UNSORTED">📥 Unsorted Deck</option>
+          <option value="PLAN_A" id="opt-plan-a">🟩 Plan A</option>
+          <option value="PLAN_B" id="opt-plan-b">🟦 Plan B</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Pricing & True Cost Preview -->
+    <div class="pricing-card">
+      <div class="row-2">
+        <div class="field-group">
+          <label for="price">Headline Base Price</label>
+          <input type="number" id="price" min="0" placeholder="0" required />
+        </div>
+        <div class="field-group">
+          <label for="buffer">Buffer %</label>
+          <input type="number" id="buffer" min="0" max="30" value="5" />
+        </div>
+      </div>
+
+      <div class="true-cost-preview">
+        <span class="true-cost-label">Estimated True Total:</span>
+        <span class="true-cost-value" id="true-cost-display">$0</span>
+      </div>
+      <div class="fees-preview-list" id="fees-list"></div>
+    </div>
+
+    <!-- Times & Location -->
+    <div class="row-2">
+      <div class="field-group">
+        <label for="time-start" id="lbl-time-start">Departure / Check-in</label>
+        <input type="datetime-local" id="time-start" />
+      </div>
+      <div class="field-group">
+        <label for="time-end" id="lbl-time-end">Arrival / Check-out</label>
+        <input type="datetime-local" id="time-end" />
+      </div>
+    </div>
+
+    <div class="field-group">
+      <label for="location">Location / Airport Code</label>
+      <input type="text" id="location" placeholder="e.g. BLR Airport or Gion, Kyoto" />
+    </div>
+
+    <!-- Tags -->
+    <div class="row-2">
+      <div class="field-group">
+        <label for="pros">Pros Tags</label>
+        <input type="text" id="pros" placeholder="e.g. Direct, Central" />
+      </div>
+      <div class="field-group">
+        <label for="cons">Cons Tags</label>
+        <input type="text" id="cons" placeholder="e.g. Red-eye, Strict" />
+      </div>
+    </div>
+
+    <input type="hidden" id="merchant-url" />
+
+    <!-- Action Buttons -->
+    <div class="button-row">
+      <button type="submit" id="clip-btn" class="btn-primary">
+        Clip to TripCanvas 🚀
+      </button>
+    </div>
+
+    <div id="toast" class="toast hidden">
+      ✓ Clipped! Forwarded to TripCanvas dashboard.
+    </div>
+  </form>
+
+  <script src="popup.js"></script>
+</body>
+</html>
