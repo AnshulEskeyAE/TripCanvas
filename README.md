@@ -4,13 +4,14 @@
 
 **TripCanvas** lets a lead trip organiser pull in flights, hotels, and activities from any OTA (Airbnb, Booking.com, Google Flights, MakeMyTrip, IndiGo) and compare two complete bundles — **Plan A vs Plan B** — with automatic true-basket cost totalling, hidden-fee detection, and spatio-temporal conflict alerts (e.g. "you land at 9 AM but check-in is 3 PM — 6 h of stranded luggage").
 
-This repository contains three layers:
+This repository contains the following core components:
 
-| Layer | Path | What it is |
+| Component | Path | What it is |
 |---|---|---|
 | **Web App** | [`/app`](./app/) | React + Vite + Zustand workspace — the core product |
 | **Browser Extension** | [`/extension`](./extension/) | Chrome MV3 clipper — reads OTA pages for you |
-| **PM Docs** | [`/docs`](./docs/) | Full product management case study (PRD, discovery, strategy) |
+| **PM Docs** | [`/docs`](./docs/) | Full product management lifecycle artifacts (PRD, discovery, strategy) |
+| **Case Study Deck** | [`TripCanvas_Product_Strategy_Case_Study.pdf`](./TripCanvas_Product_Strategy_Case_Study.pdf) | 20-slide executive case study deck |
 
 ---
 
@@ -129,6 +130,7 @@ The TripCanvas Clipper icon will appear in your browser toolbar.
 tripcanvas/
 ├── README.md
 ├── .gitignore
+├── TripCanvas_Product_Strategy_Case_Study.pdf   Executive PM case study deck (PDF)
 │
 ├── app/                        Web application
 │   ├── src/
@@ -150,7 +152,8 @@ tripcanvas/
 │
 └── docs/                       PM case study artifacts
     ├── Product Requirements.md Canonical PRD
-    ├── PHASES/                 Discovery through MVP phases
+    ├── PHASES/                 Discovery through MVP phases (00 - 13)
+    ├── assets/                 User research & visual documentation
     └── design/                 Excalidraw wireframes
 ```
 
@@ -192,11 +195,16 @@ Run these from inside the `app/` directory:
 
 ---
 
-## PM Documentation
+## PM Documentation & Case Study Deck
 
-The `/docs` folder is a complete Product Management lifecycle artifact for TripCanvas. It covers problem discovery, user segmentation, competitive landscape, product strategy, a full PRD with acceptance criteria, metrics framework, and MVP specification.
+### 1. Executive Presentation & Strategy Deck
+* **Executive Presentation Deck (PDF):** [`TripCanvas_Product_Strategy_Case_Study.pdf`](./TripCanvas_Product_Strategy_Case_Study.pdf) — A 20-slide executive case study covering problem discovery, user research, product strategy, conflict detection engines, and go-to-market.
 
-Start here: [docs/PHASES/00 - Start Here.md](./docs/PHASES/00%20-%20Start%20Here.md)
+### 2. Full PM Lifecycle Documentation
+The [`/docs`](./docs/) folder contains the complete Product Management lifecycle artifact for TripCanvas:
+* **Canonical PRD:** [`docs/Product Requirements.md`](./docs/Product%20Requirements.md) — Comprehensive problem statement, user personas, MVP scope, Gherkin acceptance criteria, and non-functional requirements.
+* **Phased Journey:** Start at [docs/PHASES/00 - Start Here.md](./docs/PHASES/00%20-%20Start%20Here.md) covering discovery, problem framing, strategy, MVP definition, and wireframe designs.
+* **Project Status Tracker:** [`docs/Where Am I.md`](./docs/Where%20Am%20I.md)
 
 ---
 

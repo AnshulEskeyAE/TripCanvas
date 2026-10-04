@@ -1,2 +1,7 @@
 node_modules/
 .DS_Store
+
+# Case deck & content spec (local reference artifacts)
+TripCanvas-Case-Deck.html
+TripCanvas-Deck-Content-Spec.md
+deck.html

@@ -46,3 +46,12 @@ When the user clicks "Open in Visual Canvas", the app programmatically maps the 
    ```
 
 The application uses standard `localStorage` to persist data, so you do not need any external databases or authentication providers to run it locally.
+
+---
+
+## 📚 Product Documentation & Case Study
+
+For the strategic background, problem framing, and complete Product Requirements Document, see:
+* **PM Case Study Deck (PDF):** [`../TripCanvas_Product_Strategy_Case_Study.pdf`](../TripCanvas_Product_Strategy_Case_Study.pdf)
+* **Canonical PRD:** [`../docs/Product Requirements.md`](../docs/Product%20Requirements.md)
+* **Full PM Documentation:** [`../docs/README.md`](../docs/README.md)
