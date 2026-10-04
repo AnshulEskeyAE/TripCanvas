@@ -10,8 +10,8 @@
   <!-- Header -->
   <header class="header">
     <div class="logo-row">
-      <span class="logo-icon">✈️</span>
-      <div>
+      <div class="logo-badge">✈️</div>
+      <div class="logo-meta">
         <h1 class="logo-title">TripCanvas Clipper</h1>
         <p class="trip-anchor" id="active-trip-label">Loading active trip...</p>
       </div>
@@ -23,24 +23,26 @@
 
   <!-- Auto-detection status alert -->
   <div class="status-banner" id="status-banner">
-    <span class="status-icon">🔍</span>
-    <span class="status-text" id="status-text">Scanning page...</span>
+    <span class="status-icon" id="status-icon">🔍</span>
+    <span class="status-text" id="status-text">Scanning page for travel data...</span>
   </div>
 
   <!-- Clipper Form -->
   <form id="clipper-form" class="form">
+    <!-- Title -->
     <div class="field-group">
       <label for="title">Title / Listing Name</label>
-      <input type="text" id="title" placeholder="e.g. Indigo 6E-204 or Kyoto Machiya" required />
+      <input type="text" id="title" placeholder="e.g. Aesthetic, Modern 2bhk near BKC & Airport" required />
     </div>
 
+    <!-- Category & Bundle -->
     <div class="row-2">
       <div class="field-group">
         <label for="category">Category</label>
         <select id="category">
-          <option value="FLIGHT">✈️ Flight</option>
+          <option value="AIRBNB">🏡 Airbnb</option>
           <option value="HOTEL">🏨 Hotel</option>
-          <option value="AIRBNB">🏠 Airbnb</option>
+          <option value="FLIGHT">✈️ Flight</option>
           <option value="TRAIN">🚆 Train</option>
           <option value="EXCURSION">🎟️ Activity</option>
         </select>
@@ -59,24 +61,33 @@
     <!-- Pricing & True Cost Preview -->
     <div class="pricing-card">
       <div class="row-2">
-        <div class="field-group">
+        <div class="field-group flex-2">
           <label for="price">Headline Base Price</label>
-          <input type="number" id="price" min="0" placeholder="0" required />
+          <div class="input-with-symbol">
+            <span class="currency-symbol" id="currency-prefix">₹</span>
+            <input type="number" id="price" min="0" placeholder="0" required />
+          </div>
         </div>
-        <div class="field-group">
+        <div class="field-group flex-1">
           <label for="buffer">Buffer %</label>
           <input type="number" id="buffer" min="0" max="30" value="5" />
         </div>
       </div>
 
-      <div class="true-cost-preview">
-        <span class="true-cost-label">Estimated True Total:</span>
-        <span class="true-cost-value" id="true-cost-display">$0</span>
+      <!-- True Cost Preview Block -->
+      <div class="true-cost-box">
+        <div class="true-cost-header">
+          <div class="true-cost-title-group">
+            <span class="true-cost-label">ESTIMATED TRUE TOTAL</span>
+            <span class="true-cost-badge">with drip fees</span>
+          </div>
+          <span class="true-cost-value" id="true-cost-display">₹0</span>
+        </div>
+        <div class="fees-preview-list" id="fees-list"></div>
       </div>
-      <div class="fees-preview-list" id="fees-list"></div>
     </div>
 
-    <!-- Times & Location -->
+    <!-- Times: Departure / Arrival -->
     <div class="row-2">
       <div class="field-group">
         <label for="time-start" id="lbl-time-start">Departure / Check-in</label>
@@ -88,20 +99,21 @@
       </div>
     </div>
 
+    <!-- Location -->
     <div class="field-group">
       <label for="location">Location / Airport Code</label>
-      <input type="text" id="location" placeholder="e.g. BLR Airport or Gion, Kyoto" />
+      <input type="text" id="location" placeholder="e.g. Mumbai, India or BLR Airport" />
     </div>
 
     <!-- Tags -->
     <div class="row-2">
       <div class="field-group">
-        <label for="pros">Pros Tags</label>
-        <input type="text" id="pros" placeholder="e.g. Direct, Central" />
+        <label for="pros">Pros Tags <span class="tag-hint">(comma-sep)</span></label>
+        <input type="text" id="pros" placeholder="e.g. Direct, Near BKC, Superhost" />
       </div>
       <div class="field-group">
-        <label for="cons">Cons Tags</label>
-        <input type="text" id="cons" placeholder="e.g. Red-eye, Strict" />
+        <label for="cons">Cons Tags <span class="tag-hint">(comma-sep)</span></label>
+        <input type="text" id="cons" placeholder="e.g. Strict check-in, Deposit" />
       </div>
     </div>
 
@@ -110,12 +122,13 @@
     <!-- Action Buttons -->
     <div class="button-row">
       <button type="submit" id="clip-btn" class="btn-primary">
-        Clip to TripCanvas 🚀
+        <span>Clip to TripCanvas</span>
+        <span class="btn-icon">🚀</span>
       </button>
     </div>
 
     <div id="toast" class="toast hidden">
-      ✓ Clipped! Forwarded to TripCanvas dashboard.
+      ✓ Clipped! Option added to TripCanvas dashboard.
     </div>
   </form>
 

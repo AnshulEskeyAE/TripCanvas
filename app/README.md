@@ -4,6 +4,14 @@ The TripCanvas Web Application is the core hybrid workspace for comparing specul
 
 By combining a structured data grid with a visual canvas, it automates true-basket cost calculations (including hidden drip fees) and detects spatio-temporal schedule conflicts, solving the primary pain points of the pre-booking travel phase.
 
+---
+
+## 📸 Interface Preview
+
+![TripCanvas Web Application Dashboard](../web-app%20screenshot.png)
+
+---
+
 ## 🛠 Tech Stack
 
 *   **Framework:** React + Vite

@@ -6,6 +6,17 @@ Extracting accurate pricing and schedule data directly from Online Travel Agenci
 
 This browser extension circumvents those limitations by operating directly within the user's authenticated DOM, easily clipping flights, hotels, and Airbnb listings into the TripCanvas application context.
 
+---
+
+## 📸 Extension Preview
+
+| In-Situ Browser Clipping (Airbnb) | Clipper Popup Detail |
+|:---:|:---:|
+| ![TripCanvas Chrome Extension in Airbnb](../extension-browser-page.png) | ![TripCanvas Clipper Extension Popup](../extension-snippet.png) |
+| *Real-time extraction directly on the OTA listing page* | *Dynamic true-cost preview with hidden fee estimations* |
+
+---
+
 ## 🛠 Tech Stack
 
 *   **Platform:** Google Chrome Extension

@@ -26,6 +26,25 @@ This repository contains the following core components:
 
 ---
 
+## 📸 Visual Walkthrough & Product Tour
+
+### 1. The Core Decision-Layer Workspace
+The TripCanvas workspace gives trip organizers a side-by-side comparative arena to balance trade-offs across flights, hotels, transit timings, and true checkout costs without juggling spreadsheets.
+
+![TripCanvas Web Application Dashboard](./web-app%20screenshot.png)
+
+*Interactive dual-bundle comparison (Plan A vs Plan B), live conflict detection banners (e.g. stranded luggage gap), and unsorted card ingestion deck.*
+
+---
+
+### 2. In-Situ Browser Clipping Workflow
+Using the Chrome MV3 companion extension, organizers clip listings from Airbnb, Booking.com, Google Flights, and airline portals directly into their canvas with automated price, date, and fee parsing.
+
+| Full Browser Context (Airbnb Listing) | In-Situ Extension Clipper Detail |
+|:---:|:---:|
+| ![TripCanvas Chrome Extension in Airbnb](./extension-browser-page.png) | ![TripCanvas Clipper Extension Popup](./extension-snippet.png) |
+| *One-click extraction directly on the OTA page* | *Dynamic true-cost preview with hidden fee estimations* |
+
 ## Architecture
 
 ```
@@ -116,11 +135,11 @@ The TripCanvas Clipper icon will appear in your browser toolbar.
 
 ### Step 3 — Using the Clipper
 
-1. Navigate to a supported OTA and open any listing or flight result
-2. Click the TripCanvas Clipper icon in your toolbar
-3. The extension extracts title, price, check-in/out or flight times from the page
-4. Click **Clip to TripCanvas** — the card appears in your Unsorted Deck automatically
-5. Drag it into Plan A or Plan B to start comparing
+1. Navigate to a supported OTA (e.g. Airbnb, Booking.com, Google Flights) and open any listing or flight result.
+2. Click the **TripCanvas Clipper** icon in your toolbar to trigger the in-situ reader (see [browser walkthrough](./extension-browser-page.png)).
+3. The extension extracts title, price, dates, and calculates drip fees in real-time (see [popup preview](./extension-snippet.png)).
+4. Click **Clip to TripCanvas 🚀** — the card appears in your Unsorted Deck automatically.
+5. Drag it into **Plan A** or **Plan B** in the web dashboard (see [workspace preview](./web-app%20screenshot.png)) to start comparing trade-offs.
 
 ---
 
@@ -131,6 +150,9 @@ tripcanvas/
 ├── README.md
 ├── .gitignore
 ├── TripCanvas_Product_Strategy_Case_Study.pdf   Executive PM case study deck (PDF)
+├── web-app screenshot.png                       Web application dashboard walkthrough
+├── extension-browser-page.png                   In-situ browser clipping walkthrough
+├── extension-snippet.png                        Extension popup detail preview
 │
 ├── app/                        Web application
 │   ├── src/

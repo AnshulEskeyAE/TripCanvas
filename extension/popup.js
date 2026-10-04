@@ -5,12 +5,14 @@ document.addEventListener('DOMContentLoaded', async () => {
   const activeTripLabel = document.getElementById('active-trip-label');
   const statusBanner = document.getElementById('status-banner');
   const statusText = document.getElementById('status-text');
+  const statusIcon = document.getElementById('status-icon');
   const titleInput = document.getElementById('title');
   const categorySelect = document.getElementById('category');
   const bundleSelect = document.getElementById('bundle');
   const optPlanA = document.getElementById('opt-plan-a');
   const optPlanB = document.getElementById('opt-plan-b');
   const priceInput = document.getElementById('price');
+  const currencyPrefix = document.getElementById('currency-prefix');
   const bufferInput = document.getElementById('buffer');
   const trueCostDisplay = document.getElementById('true-cost-display');
   const feesList = document.getElementById('fees-list');
@@ -25,23 +27,25 @@ document.addEventListener('DOMContentLoaded', async () => {
   const clipBtn = document.getElementById('clip-btn');
 
   let activeTrip = null;
-  let activeCurrency = 'USD';
-  let activeCurrencySym = '$';
+  let activeCurrency = 'INR';
+  let activeCurrencySym = '₹';
 
   // 1. Check for active trip metadata synced from dashboard
   chrome.storage.local.get(['active_trip'], (res) => {
     if (res.active_trip) {
       activeTrip = res.active_trip;
-      activeTripLabel.textContent = `Trip: ${activeTrip.trip_name}`;
+      activeTripLabel.textContent = `Trip: ${activeTrip.trip_name || 'Active Workspace'}`;
       if (activeTrip.plan_a_name) optPlanA.textContent = `🟩 ${activeTrip.plan_a_name}`;
       if (activeTrip.plan_b_name) optPlanB.textContent = `🟦 ${activeTrip.plan_b_name}`;
       if (activeTrip.currency) {
         activeCurrency = activeTrip.currency;
-        activeCurrencySym = activeCurrency === 'INR' ? '₹' : activeCurrency === 'EUR' ? '€' : '$';
+        activeCurrencySym = activeCurrency === 'INR' ? '₹' : activeCurrency === 'EUR' ? '€' : activeCurrency === 'GBP' ? '£' : activeCurrency === 'JPY' ? '¥' : '$';
+        if (currencyPrefix) currencyPrefix.textContent = activeCurrencySym;
       }
     } else {
       activeTripLabel.textContent = 'Trip: Kyoto & Tokyo (Default)';
     }
+    calculateFeesAndTrueTotal();
   });
 
   // 2. Scan active tab for travel data using content_parser.js
@@ -62,20 +66,41 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (parsedData.category) categorySelect.value = parsedData.category;
         if (parsedData.location) locationInput.value = parsedData.location;
 
+        // Auto-fill dates
+        if (parsedData.check_in) timeStart.value = parsedData.check_in;
+        if (parsedData.check_out) timeEnd.value = parsedData.check_out;
+
+        // Auto-detect currency
+        if (parsedData.currency_symbol) {
+          activeCurrencySym = parsedData.currency_symbol;
+          activeCurrency = activeCurrencySym === '₹' ? 'INR' : activeCurrencySym === '€' ? 'EUR' : activeCurrencySym === '£' ? 'GBP' : activeCurrencySym === '¥' ? 'JPY' : 'USD';
+          if (currencyPrefix) currencyPrefix.textContent = activeCurrencySym;
+        }
+
         if (parsedData.isParsed) {
           statusBanner.className = 'status-banner success';
-          statusText.textContent = `✓ Auto-parsed from ${new URL(tab.url).hostname.replace('www.', '')}`;
+          if (statusIcon) statusIcon.textContent = '✓';
+          try {
+            const hostname = new URL(tab.url).hostname.replace('www.', '');
+            statusText.textContent = `Auto-parsed from ${hostname}`;
+          } catch {
+            statusText.textContent = 'Auto-parsed from page';
+          }
         } else {
           statusBanner.className = 'status-banner';
-          statusText.textContent = `ℹ️ Page title detected. Verify price & details below.`;
+          if (statusIcon) statusIcon.textContent = 'ℹ️';
+          statusText.textContent = `Page title detected. Verify price & details below.`;
         }
       }
     } else {
-      statusBanner.textContent = 'Ready for manual entry';
+      statusBanner.className = 'status-banner';
+      if (statusIcon) statusIcon.textContent = '✏️';
+      statusText.textContent = 'Ready for manual entry';
     }
   } catch (err) {
-    console.debug('Scripting injection fallback:', err);
+    console.debug('[TripCanvas] Scripting injection fallback:', err);
     statusBanner.className = 'status-banner';
+    if (statusIcon) statusIcon.textContent = '✏️';
     statusText.textContent = 'Ready for entry';
   }
 
@@ -84,13 +109,23 @@ document.addEventListener('DOMContentLoaded', async () => {
     const headline = parseFloat(priceInput.value) || 0;
     const bufferPct = parseFloat(bufferInput.value) || 0;
     const cat = categorySelect.value;
-    const url = merchantUrlInput.value.toLowerCase();
+    const url = (merchantUrlInput.value || '').toLowerCase();
+
+    if (currencyPrefix) {
+      currencyPrefix.textContent = activeCurrencySym;
+    }
+
+    if (headline === 0) {
+      trueCostDisplay.textContent = `${activeCurrencySym}0`;
+      feesList.innerHTML = '<div style="color: #64748b; font-size: 10.5px; padding: 2px 0;">Enter headline base price to compute checkout fees</div>';
+      return { computedFees: [], bufferAmount: 0, trueTotal: 0 };
+    }
 
     let computedFees = [];
 
-    // Platform rules
+    // Platform fee estimation rules
     if (cat === 'AIRBNB' || url.includes('airbnb.')) {
-      computedFees.push({ label: 'Airbnb Service Fee (14%)', amount: Math.round(headline * 0.14) });
+      computedFees.push({ label: 'Airbnb Guest Service Fee (14%)', amount: Math.round(headline * 0.14) });
       computedFees.push({ label: 'Cleaning Fee (Est)', amount: activeCurrency === 'INR' ? 1500 : 25 });
     } else if (cat === 'HOTEL' || url.includes('booking.')) {
       computedFees.push({ label: 'VAT / Occupancy Tax (12%)', amount: Math.round(headline * 0.12) });
@@ -98,6 +133,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     } else if (cat === 'FLIGHT') {
       computedFees.push({ label: 'Checked Baggage (Est)', amount: activeCurrency === 'INR' ? 1200 : 25 });
       computedFees.push({ label: 'Aviation Taxes (8%)', amount: Math.round(headline * 0.08) });
+    } else if (cat === 'EXCURSION') {
+      computedFees.push({ label: 'Booking & Processing (5%)', amount: Math.round(headline * 0.05) });
     }
 
     const feesSum = computedFees.reduce((acc, f) => acc + f.amount, 0);
@@ -106,17 +143,26 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     trueCostDisplay.textContent = `${activeCurrencySym}${trueTotal.toLocaleString()}`;
 
-    // Render fee tags
+    // Render fee rows
     feesList.innerHTML = '';
     computedFees.forEach((f) => {
-      const div = document.createElement('div');
-      div.textContent = `+ ${activeCurrencySym}${f.amount} ${f.label}`;
-      feesList.appendChild(div);
+      const row = document.createElement('div');
+      row.className = 'fee-row';
+      row.innerHTML = `
+        <span class="fee-name">+ ${f.label}</span>
+        <span class="fee-amount">${activeCurrencySym}${f.amount.toLocaleString()}</span>
+      `;
+      feesList.appendChild(row);
     });
+
     if (bufferAmount > 0) {
-      const bufDiv = document.createElement('div');
-      bufDiv.textContent = `+ ${activeCurrencySym}${bufferAmount} Custom Buffer (${bufferPct}%)`;
-      feesList.appendChild(bufDiv);
+      const bufRow = document.createElement('div');
+      bufRow.className = 'fee-row';
+      bufRow.innerHTML = `
+        <span class="fee-name">+ Custom Safety Buffer (${bufferPct}%)</span>
+        <span class="fee-amount">${activeCurrencySym}${bufferAmount.toLocaleString()}</span>
+      `;
+      feesList.appendChild(bufRow);
     }
 
     return { computedFees, bufferAmount, trueTotal };
@@ -133,7 +179,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   form.addEventListener('submit', (e) => {
     e.preventDefault();
     clipBtn.disabled = true;
-    clipBtn.textContent = 'Clipping...';
+    clipBtn.innerHTML = '<span>Clipping to canvas...</span>';
 
     const { computedFees } = calculateFeesAndTrueTotal();
 
@@ -169,7 +215,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Forward to background service worker
     chrome.runtime.sendMessage({ type: 'CLIP_CARD', card: newCard }, (response) => {
       toast.classList.remove('hidden');
-      clipBtn.textContent = '✓ Option Clipped!';
+      clipBtn.innerHTML = '<span>✓ Option Clipped!</span>';
 
       setTimeout(() => {
         window.close();
